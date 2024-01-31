@@ -32,14 +32,14 @@ class SimpleTemplateEngine
         // Perform variable substitution after replacing {** **}
         extract($data, EXTR_SKIP);
         //var_dump($data);
-        $pattern2 = '/\{\!\!(.*?)\!\!\}/';
+        $pattern2 = '/\{\!\!\s*(.*?)\s*\!\!\}/';
         $result = preg_replace_callback($pattern2, function ($matches) use ($data) {
             // Replace {!! variable !!} with the corresponding data value
             
-            $match_trimmed = trim($matches[1]);
+            // $match_trimmed = trim($matches[1]);
             //var_dump($match_trimmed);
             
-            return $data[$match_trimmed] ?? '';
+            return $data[$matches[1]] ?? '';
         }, $result);
         // Return the result directly
         
