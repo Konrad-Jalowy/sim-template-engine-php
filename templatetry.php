@@ -9,7 +9,7 @@ class SimpleTemplateEngine
         $this->basePath = $basePath;
     }
 
-  
+    
 
     public function render(string $template, array $data = []): string
 {
@@ -60,8 +60,16 @@ class SimpleTemplateEngine
         return $term;
     }, $result);
 
-    // Return the result directly
+    $pattern3 = '/\{\?\?\s*(.*?)\s*\?\?\}/';
+        $result = preg_replace_callback($pattern3, function ($matches) use ($data) {
+            // Evaluate PHP code blocks
+            ob_start();
+            eval($matches[1]);
+            $output = ob_get_clean();
+            return $output;
+        }, $result);
     return $result;
+    
 }
 
     private function resolve(string $path): string
